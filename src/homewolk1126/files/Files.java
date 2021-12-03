@@ -5,7 +5,7 @@ public class Files {
         File  a = new File("D:\\");
         File  f = new File(a,"demo.txt");
         try{
-            byte bytes[] = new byte[512];
+            byte[] bytes = new byte[512];
             FileInputStream fis = new FileInputStream(f);
             int rs = 0;
             System.out.println("The content of  demo is :");

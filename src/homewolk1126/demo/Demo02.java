@@ -1,7 +1,9 @@
 package homewolk1126.demo;
-import java.io.*;
 
-public class Demo {
+import java.io.File;
+import java.io.FileInputStream;
+
+public class Demo02 {
     public static void main(String[] args) {
         File fil = new File("D:\\","demo.txt");
         try{

@@ -14,17 +14,23 @@ public class Culcaltor extends JFrame{
     }
     public Culcaltor(){
         super();
+        // 整体框架 需要一个容器，原来是这么做的，
+        Container c = getContentPane();
+        c.setLayout(new FlowLayout());
         setTitle("计算器");
         setBounds(0,0,430,330);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         final JPanel viewPanel = new JPanel();
-        getContentPane().add(viewPanel, BorderLayout.NORTH);
+      //  getContentPane().setLayout(null);  // 禁用布局器
+        getContentPane().add(viewPanel,BorderLayout.NORTH);
+        viewPanel.setBorder(BorderFactory.createTitledBorder("面板1"));
         JTextField textField = new JTextField();
         textField.setEditable(false);
         textField.setHorizontalAlignment(SwingConstants.RIGHT);
         textField.setColumns(40);   //columns 列
         viewPanel.add(textField);
         final JPanel buttonPanel = new JPanel();
+        buttonPanel.setBorder(BorderFactory.createTitledBorder("面板2"));
         final GridLayout gridLayout = new GridLayout(0,5);   //row 行 col 列
         gridLayout.setVgap(5);
         gridLayout.setHgap(5);
@@ -45,6 +51,23 @@ public class Culcaltor extends JFrame{
         final JLabel  rightLabel = new JLabel();
         rightLabel.setPreferredSize(new Dimension(10,0));
         getContentPane().add(rightLabel,BorderLayout.EAST);
+        // 显示两个文本框
+
+        final JPanel rightPanel = new JPanel();
+        rightPanel.setBorder(BorderFactory.createTitledBorder("面板3"));
+        getContentPane().add(rightPanel);
+        JTextField right_text = new JTextField();
+        right_text.setEditable(true);
+      //  right_text.setHorizontalAlignment(SwingConstants.RIGHT);
+        right_text.setColumns(40);   //columns 列
+        rightPanel.add(right_text,BorderFactory.createTitledBorder("面板4"));
+        JTextField right_text_show = new JTextField();
+      //  right_text_show.setHorizontalAlignment(SwingConstants.RIGHT); //水平
+        right_text_show.setColumns(40);  //
+        rightPanel.add(right_text_show);
+        //显示按钮
+        final JLabel right_Button = new JLabel();
+
     }
 
 }

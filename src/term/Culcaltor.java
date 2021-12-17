@@ -27,10 +27,12 @@ public class Culcaltor extends JFrame {
         getContentPane().add(viewPanel, BorderLayout.NORTH);
         viewPanel.setBorder(BorderFactory.createTitledBorder("面板1"));
         JTextField textField = new JTextField();
-        textField.setEditable(false);
+        textField.setEditable(true);
         textField.setHorizontalAlignment(SwingConstants.RIGHT);
-        textField.setColumns(40);   //columns 列
+        textField.setColumns(80);   //columns 列
         viewPanel.add(textField);
+
+        // 面板2
         final JPanel buttonPanel = new JPanel();
         buttonPanel.setBorder(BorderFactory.createTitledBorder("面板2"));
         final GridLayout gridLayout = new GridLayout(0, 5);   //row 行 col 列
@@ -58,18 +60,33 @@ public class Culcaltor extends JFrame {
         final JPanel rightPanel = new JPanel(new BorderLayout());
         rightPanel.setBorder(BorderFactory.createTitledBorder("面板3"));
         getContentPane().add(rightPanel, BorderLayout.EAST);  //这才是面板
+        /*
         JTextField right_text = new JTextField();
         right_text.setEditable(true);
        // right_text.setHorizontalAlignment(JTextField.RIGHT);
         right_text.setColumns(40);   //columns 列
         rightPanel.add(right_text,BorderLayout.NORTH);
-        JTextArea right_text_show = new JTextArea(40, 40);
+        */
+
+        JTextArea right_text_show = new JTextArea(40, 30);
         // 水平  right_text_show.setHorizontalAlignment(SwingConstants.RIGHT);
         // right_text_show.setColumns(40);
-        right_text_show.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
-        rightPanel.add(right_text_show,BorderLayout.CENTER);
+       // right_text_show.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
+        rightPanel.add(right_text_show);
         //显示按钮
-        final JLabel right_Button = new JLabel();
+        String[] button_rs = {"保存","查看","清除"};
+        final JButton[] button_rb = new JButton[3];
+        for(int i = 0; i < 3;i++){
+            button_rb[i] = new JButton(button_rs[i]);
+            rightPanel.add(button_rb[i]);
+        }
+        button_rb[0] = new JButton(button_rs[0]);
+
+
+      //  rightPanel.add(button_rb[0]);
+
+
+
 
     }
 

@@ -27,21 +27,21 @@ public class Case1107 extends JFrame {
         topPanel.add(modelLabel, BorderLayout.WEST);
         final JButton startButton = new JButton();
         startButton.setText("下一局");
-        startButton.addActionListener(new StartButtonAction());  //为案件添加监听器
+      //  startButton.addActionListener(new StartButtonAction());  //为案件添加监听器
         topPanel.add(startButton, BorderLayout.CENTER);
         final JPanel centerPanel = new JPanel();
         centerPanel.setBorder(new TitledBorder(null, "", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null, null));
         centerPanel.setLayout(new GridLayout(0, 3));
         getContentPane().add(centerPanel, BorderLayout.CENTER);
-        String[][] stochasticOrder = reorder();
+       // String[][] stochasticOrder = reorder();
         for(int row = 0 ; row < 3 ; row++) {
             for (int col = 0; col < 3; col++) {
                 final JButton button = new JButton();
                 button.setName(row + "" + col);
-                button.setIcon(new ImageIcon(stochasticOrder[row][col]));
-                if(stochasticOrder[row][col].equals("C:\\Users\\yang\\Desktop\\0.jpg"));
-                emptyButton = button;
-                button.addActionListener(new ImgButtonAction());
+           //     button.setIcon(new ImageIcon(stochasticOrder[row][col]));
+            //    if(stochasticOrder[row][col].equals("C:\\Users\\yang\\Desktop\\0.jpg"));
+           //     emptyButton = button;
+            //    button.addActionListener(new ImgButtonAction());
                 centerPanel.add(button);
             }
         }

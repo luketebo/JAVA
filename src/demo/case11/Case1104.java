@@ -29,11 +29,11 @@ public class Case1104 extends JFrame {
         panel.add(cButton,BorderLayout.CENTER);
 
         final JButton dButton = new JButton();
-        cButton.setText("按钮D");
+        dButton.setText("按钮D");
         panel.add(dButton,BorderLayout.EAST);
 
         final JButton eButton = new JButton();
-        cButton.setText("按钮E");
+        eButton.setText("按钮E");
         panel.add(eButton,BorderLayout.SOUTH);
 
 

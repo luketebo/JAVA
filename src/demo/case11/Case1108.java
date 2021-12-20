@@ -6,6 +6,7 @@ import java.awt.*;
 public class Case1108 extends JFrame {
     public static void main(String[] args) {
         Case1108 frame = new Case1108();
+        frame.setSize(360,360);
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }

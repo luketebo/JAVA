@@ -1,5 +1,6 @@
 package term;
 
+import homewolk1021.box.Box;
 import homewolk1105.test.B;
 
 import javax.swing.*;
@@ -10,6 +11,7 @@ public class Culcaltor extends JFrame {
     public static void main(String[] args) {
         Culcaltor cul = new Culcaltor();
         cul.setVisible(true);
+        cul.setSize(650, 450);
 
     }
 
@@ -63,29 +65,43 @@ public class Culcaltor extends JFrame {
         /*
         JTextField right_text = new JTextField();
         right_text.setEditable(true);
-       // right_text.setHorizontalAlignment(JTextField.RIGHT);
+        right_text.setHorizontalAlignment(JTextField.RIGHT);
         right_text.setColumns(40);   //columns 列
         rightPanel.add(right_text,BorderLayout.NORTH);
         */
 
-        JTextArea right_text_show = new JTextArea(40, 30);
+        JTextArea right_text_show = new JTextArea(15, 20);  // 行 列
         // 水平  right_text_show.setHorizontalAlignment(SwingConstants.RIGHT);
         // right_text_show.setColumns(40);
-       // right_text_show.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
-        rightPanel.add(right_text_show);
+        // right_text_show.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
+        //right_text_show.setBounds(40,40,90,90);
+       // right_text_show.setBounds(300,300,90,90);
+        rightPanel.add(right_text_show,BorderLayout.NORTH);
         //显示按钮
-        String[] button_rs = {"保存","查看","清除"};
+        /*
+        String[] button_rs = {"保存", "查看", "清除"};
         final JButton[] button_rb = new JButton[3];
-        for(int i = 0; i < 3;i++){
+        for (int i = 0; i < 3; i++) {
             button_rb[i] = new JButton(button_rs[i]);
             rightPanel.add(button_rb[i]);
         }
-        button_rb[0] = new JButton(button_rs[0]);
+        */
+
+        final JButton button_rb_1 = new JButton("保存");
+        final JButton button_rb_2 = new JButton("查看");
+        final JButton button_rb_3 = new JButton("清除");
+        /*
+        button_rb_1.setBounds(400,400,30,30);
+        button_rb_2.setBounds(430,400,30,30);
+        button_rb_3.setBounds(460,400,30,30);
+         */
+        rightPanel.add(button_rb_1,BorderLayout.WEST);
+        rightPanel.add(button_rb_2,BorderLayout.CENTER);
+        rightPanel.add(button_rb_3,BorderLayout.EAST);
+       // button_rb[0] = new JButton(button_rs[0]);
 
 
-      //  rightPanel.add(button_rb[0]);
-
-
+        //  rightPanel.add(button_rb[0]);
 
 
     }

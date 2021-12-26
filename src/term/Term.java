@@ -6,9 +6,18 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Objects;
 
-public class Term extends JFrame {
+public class Term<Public> extends JFrame {
     //若想要实现添加到同一JFrame中且不覆盖，不可直接添加，需要先将要添加的JPanel添加到一个JPanel中，再将该JPanel添加到JFrame中
+
 
     public static void main(String[] args) {
         Term t = new Term();
@@ -16,51 +25,91 @@ public class Term extends JFrame {
         t.setSize(890, 524);
     }
 
+    // 面板0
+    final JPanel jp = new JPanel();
+
+    // 面板1
+    final JPanel viewPanel = new JPanel();
+    // 面板 1.1
+    final JPanel viewPanel1 = new JPanel();
+    final JTextField one = new JTextField();
+    final JTextField two = new JTextField();
+    final JTextField three = new JTextField();
+    // 1.2
+    final JPanel viewPanel2 = new JPanel();
+    JButton[][] buttons = new JButton[6][6];
+
+    // 面板2
+    final JPanel secondPanel = new JPanel();
+    //2.1
+    final JPanel secondPanel1 = new JPanel();
+    final JTextField left_one = new JTextField();
+    //2.2
+    final JPanel secondPanel2 = new JPanel();
+    final JTextArea left_two = new JTextArea(25, 35);
+    //2.3
+    final JPanel secondPanel3 = new JPanel();
+    JButton[] ad_buttons = new JButton[3];
+
+    // 我所需要的附加条件
+    public boolean operatorPressed = false;   // 判断是否已经按下操作符
+    public String storage;  // 用来存储我输入的字符串，方便加在一起
+    public int first = 0;
+    public int second = 0;
+
     public Term() {
         super();
         Container c = getContentPane();
         setTitle("计算器");
         setBounds(0, 0, 200, 330);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        final JPanel jp = new JPanel();
+
         // jp.setBorder(BorderFactory.createTitledBorder("面板0"));
         // 面板1
-        final JPanel viewPanel = new JPanel();
+
         viewPanel.setPreferredSize(new Dimension(450, 450));
         // viewPanel.setBorder(BorderFactory.createTitledBorder("面板1"));
-        // 面板 1.1
-        final JPanel viewPanel1 = new JPanel();
+
         viewPanel1.setPreferredSize(new Dimension(400, 85));
         // viewPanel1.setBorder(BorderFactory.createTitledBorder("面板1.1"));
-        final JTextField one = new JTextField();
+
         one.setPreferredSize(new Dimension(165, 65));
         one.setEditable(false);
-        final JTextField two = new JTextField();
+
         two.setPreferredSize(new Dimension(50, 65));
         two.setEditable(false);
-        final JTextField three = new JTextField();
+
         three.setPreferredSize(new Dimension(165, 65));
         three.setEditable(false);
+
+        // 设置字体
+        Font fb = new Font("微软雅黑", Font.BOLD, 26);
+
+        one.setFont(fb);
+        two.setFont(fb);
+        three.setFont(fb);
+
         viewPanel1.add(one);
         viewPanel1.add(two);
         viewPanel1.add(three);
 
-        final JPanel viewPanel2 = new JPanel();
+
         viewPanel2.setPreferredSize(new Dimension(400, 350));
         // viewPanel2.setBorder(BorderFactory.createTitledBorder("面板1.2"));
         final GridLayout gridLayout = new GridLayout(0, 5);   //row 行 col 列
         gridLayout.setVgap(20);
         gridLayout.setHgap(20);
         viewPanel2.setLayout(gridLayout);
+        Font f = new Font("宋体", Font.BOLD, 13);
         //getContentPane().add(viewPanel2, BorderLayout.CENTER);
         String[][] names = {{"1", "2", "3", "/", "C"}, {"4", "5", "6", "*", "退格"},
                 {"7", "8", "9", "-", "1/x"}, {"0", "+/-", ".", "+", "="}};
-        JButton[][] buttons = new JButton[6][6];
+
         for (int row = 0; row < 4; row++) {
             for (int col = 0; col < 5; col++) {
                 buttons[row][col] = new JButton(names[row][col]);
                 buttons[row][col].addActionListener(new ListenerNumber());
-
+                buttons[row][col].setFont(f);
                 viewPanel2.add(buttons[row][col]);
             }
         }
@@ -69,28 +118,25 @@ public class Term extends JFrame {
         viewPanel.add(viewPanel1);
         viewPanel.add(viewPanel2);
 
-        // 面板2
-        final JPanel secondPanel = new JPanel();
+
         secondPanel.setPreferredSize(new Dimension(400, 450));
         // secondPanel.setBorder(BorderFactory.createTitledBorder("面板2"));
 
-        final JPanel secondPanel1 = new JPanel();
+
         secondPanel1.setPreferredSize(new Dimension(400, 85));
         // secondPanel1.setBorder(BorderFactory.createTitledBorder("面板2.1"));
-        final JTextField left_one = new JTextField();
+
         left_one.setPreferredSize(new Dimension(380, 65));
         left_one.setEditable(false);
         secondPanel1.add(left_one);
 
 
-        final JPanel secondPanel2 = new JPanel();
         secondPanel2.setPreferredSize(new Dimension(400, 284));
         //  secondPanel2.setBorder(BorderFactory.createTitledBorder("面板2.2"));
-        final JTextArea left_two = new JTextArea(25, 35);
+
         secondPanel2.add(left_two);
 
 
-        final JPanel secondPanel3 = new JPanel();
         secondPanel3.setPreferredSize(new Dimension(400, 75));
         //  secondPanel3.setBorder(BorderFactory.createTitledBorder("面板2.3"));
 
@@ -100,7 +146,7 @@ public class Term extends JFrame {
         secondPanel3.setLayout(gridLayout1);
 
         String[] ad = {"保存", "查看", "清除"};
-        JButton[] ad_buttons = new JButton[3];
+
         for (int i = 0; i < 3; i++) {
             ad_buttons[i] = new JButton(ad[i]);
             ad_buttons[i].addActionListener(new ListenerNumber());
@@ -108,6 +154,8 @@ public class Term extends JFrame {
             secondPanel3.add(ad_buttons[i]);
         }
 
+        left_one.setFont(fb);
+        // left_two.setFont(fb);
 
         secondPanel.add(secondPanel1);
         secondPanel.add(secondPanel2);
@@ -115,6 +163,7 @@ public class Term extends JFrame {
         jp.add(viewPanel, BorderLayout.WEST);
         jp.add(secondPanel, BorderLayout.EAST);
         getContentPane().add(jp);
+
 
     }
 
@@ -128,8 +177,11 @@ public class Term extends JFrame {
     如果调用getActionCommand（）方法的话，返回的就是“按钮1” ；
      */
     class ListenerNumber implements ActionListener {
+
+
         @Override
         public void actionPerformed(ActionEvent e) {
+
             //获取事件源文字
             JButton button = (JButton) e.getSource();
             String buttonName = e.getActionCommand();
@@ -160,7 +212,7 @@ public class Term extends JFrame {
                     change(buttonName);
                     break;
                 }
-                case "c":
+                case "C":
                 case "退格": {
                     clear(buttonName);
                     break;
@@ -170,48 +222,212 @@ public class Term extends JFrame {
                     break;
                 }
                 case "保存":
-                    ab_save(buttonName);
+                    ab_save();
                     break;
                 case "查看":
-                    ab_show(buttonName);
+                    ab_show();
                     break;
                 case "清除":
-                    ab_clear(buttonName);
+                    ab_clear();
                     break;
 
 
             }
         }
+
+
+        public void input(String num) {
+            // 输入第二遍数字式，格式化所有
+            String a1 = new String(one.getText());
+            String a2 = new String(two.getText());
+            String a3 = new String(three.getText());
+            String a4 = new String(left_one.getText());
+            if (!Objects.equals(a1, "") && !Objects.equals(a2, "") && !Objects.equals(a3, "") && !Objects.equals(a4, "")) {
+                one.setText("");
+                two.setText("");
+                three.setText("");
+                left_one.setText("");
+                operatorPressed = false;
+                first = 0;
+                second = 0;
+            }
+            if (!operatorPressed) {
+
+                one.setText(one.getText() + num);
+
+            } else {
+                three.setText(three.getText() + num);
+            }
+
+        }
+
+        public void input_sign(String sign) {
+            two.setText(sign);
+            operatorPressed = true;
+        }
+
+        public void out(String equal) {
+            Calendar calendar = Calendar.getInstance();
+            SimpleDateFormat formatter = new SimpleDateFormat("yyy-MM-dd HH:mm:ss");
+            String s1 = new String(one.getText());
+            String s2 = new String(two.getText());
+            String s3 = new String(three.getText());
+            // double 可以控制 输出For input String "0.5"
+            Double a = Double.parseDouble(s1);
+            Double b = Double.parseDouble(s3);
+            switch (s2) {
+                // append 不会进行覆盖
+                case "+":
+                    Double c = a + b;
+                    String s = a + " + " + b + " = " + c;
+
+
+                    left_one.setText(String.valueOf(c));
+                    left_two.append(s + "                       " + formatter.format(calendar.getTime()) + "\r\n");
+                    // left_two.setText("\n");
+                    break;
+                case "-":
+                    Double h = a - b;
+                    left_one.setText(String.valueOf(h));
+
+
+                    left_two.append(String.valueOf(a) + " - " + String.valueOf(b) + " = " + String.valueOf(h) + "                       " + formatter.format(calendar.getTime()) + "\r\n");
+
+                    break;
+                case "*":
+                    Double d = a * b;
+                    left_one.setText(String.valueOf(d));
+                    left_two.append(String.valueOf(a) + " * " + String.valueOf(b) + " = " + String.valueOf(d) + "                       " + formatter.format(calendar.getTime()) + "\r\n");
+
+                    break;
+                case "/":
+                    Double e = a / b;
+                    left_one.setText(String.valueOf(e));
+                    left_two.append(String.valueOf(a) + " / " + String.valueOf(b) + " = " + String.valueOf(e) + "                       " + formatter.format(calendar.getTime()) + "\r\n");
+
+                    break;
+            }
+
+
+        }
+
+        public void clear(String n) {
+            if (Objects.equals(n, "退格")) {
+                if (!operatorPressed) {
+                    StringBuilder sb = new StringBuilder(one.getText());
+                    one.setText(sb.substring(0, sb.length() - 1));
+                } else {
+                    StringBuilder sa = new StringBuilder(three.getText());
+                    three.setText(sa.substring(0, sa.length() - 1));
+
+                }
+            }
+            if (Objects.equals(n, "C")) {
+                one.setText("");
+                two.setText("");
+                three.setText("");
+                left_one.setText("");
+                operatorPressed = false;
+                first = 0;
+                second = 0;
+            }
+        }
+
+        public void change(String n) {
+            if (n.equals("+/-")) {
+                if (!operatorPressed) { // 在没有按下符号键的情况
+                    String a = "+";
+                    String b = "-";
+                    if (first == 0) {
+                        String f1 = new String(one.getText());
+                        one.setText(a + f1);
+                    } else {
+                        if (first % 2 == 0) {  // 偶数
+                            String f2 = new String(one.getText());
+                            String f21 = f2.substring(1, f2.length());
+                            one.setText(b + f21);
+                        } else {
+                            String f3 = new String(one.getText());
+                            String f31 = f3.substring(1, f3.length());
+                            one.setText(a + f31);
+                        }
+                    }
+                    first++;
+                } else {
+                    String a = "+";
+                    String b = "-";
+                    if (second == 0) {
+                        String f1 = new String(three.getText());
+                        three.setText(a + f1);
+                    } else {
+                        if (second % 2 == 0) {  // 偶数
+                            String f2 = new String(three.getText());
+                            String f21 = f2.substring(1, f2.length());
+                            three.setText(b + f21);
+                        } else {
+                            String f3 = new String(three.getText());
+                            String f31 = f3.substring(1, f3.length());
+                            three.setText(a + f31);
+                        }
+                    }
+                    second++;
+
+                }
+            } else {
+                if (!operatorPressed) {
+                    int a = Integer.parseInt(one.getText());
+                    double b = 1.0 / a;
+                    // 控制小数点位数
+                    DecimalFormat df = new DecimalFormat("0.0");
+                    one.setText(String.valueOf(df.format(b)));
+                } else {
+                    int a = Integer.parseInt(three.getText());
+                    double b = 1.0 / a;
+                    DecimalFormat df = new DecimalFormat("0.0");
+                    three.setText(String.valueOf(df.format(b)));
+                }
+            }
+        }
+
+        // 清除
+        public void ab_clear() {
+            // 仅仅只是删除jTextArea 中的数据，整个文本的内容并没有发生改变
+            left_two.setText("");
+        }
+
+        // 保存
+        public void ab_save() {
+            // 我需要把jTextArea 中的数据，读取到内存中，然后将这里的数据，写入文件里
+            try {
+                String area = left_two.getText();
+                String ax = "yangchangsong";
+                // System.out.println(area);
+                File a = new File("D:\\test.txt");
+                if (!a.exists()) {
+                    a.createNewFile();
+                }
+                FileWriter fileWriter = new FileWriter(a.getName(), true);
+                fileWriter.write(area);
+                fileWriter.write(ax);
+                fileWriter.close();
+                System.out.println("finish");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }
+
+        // 查看
+        public void ab_show() {
+            JFileChooser fc = new JFileChooser("D:\\");
+            int val = fc.showOpenDialog(null);
+            if(val == fc.APPROVE_OPTION){
+
+            }
+
+
+        }
+
     }
-
-    public void input(String num) {
-
-    }
-
-    public void input_sign(String sign) {
-
-    }
-
-    public void out(String equal) {
-
-    }
-
-    public void clear(String n) {
-
-    }
-
-    public void change(String n) {
-
-    }
-
-    public void ab_clear(String buttonName) {
-    }
-
-    public void ab_save(String buttonName) {
-    }
-
-    public void ab_show(String buttonName) {
-    }
-
 
 }

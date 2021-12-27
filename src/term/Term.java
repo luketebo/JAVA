@@ -1,30 +1,39 @@
 package term;
 
 import homewolk1105.test.B;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
 
 import javax.swing.*;
+import javax.swing.plaf.FontUIResource;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Enumeration;
 import java.util.Objects;
+
 
 public class Term<Public> extends JFrame {
     //若想要实现添加到同一JFrame中且不覆盖，不可直接添加，需要先将要添加的JPanel添加到一个JPanel中，再将该JPanel添加到JFrame中
 
 
     public static void main(String[] args) {
+
+
+
         Term t = new Term();
         t.setVisible(true);
         t.setSize(890, 524);
     }
 
+    final JFrame jf = new JFrame();
+    FileDialog fd = new FileDialog(jf, "打开文件");
     // 面板0
     final JPanel jp = new JPanel();
 
@@ -46,7 +55,8 @@ public class Term<Public> extends JFrame {
     final JTextField left_one = new JTextField();
     //2.2
     final JPanel secondPanel2 = new JPanel();
-    final JTextArea left_two = new JTextArea(25, 35);
+    final JTextArea left_two = new JTextArea(17, 35);
+    //final JScrollPane scroll = new JScrollPane(left_two);
     //2.3
     final JPanel secondPanel3 = new JPanel();
     JButton[] ad_buttons = new JButton[3];
@@ -57,9 +67,10 @@ public class Term<Public> extends JFrame {
     public int first = 0;
     public int second = 0;
 
+
     public Term() {
         super();
-        Container c = getContentPane();
+        // Container c = getContentPane();
         setTitle("计算器");
         setBounds(0, 0, 200, 330);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -88,7 +99,9 @@ public class Term<Public> extends JFrame {
         one.setFont(fb);
         two.setFont(fb);
         three.setFont(fb);
-
+        one.setBorder(BorderFactory.createLineBorder(Color.black));
+        two.setBorder(BorderFactory.createLineBorder(Color.black));
+        three.setBorder(BorderFactory.createLineBorder(Color.black));
         viewPanel1.add(one);
         viewPanel1.add(two);
         viewPanel1.add(three);
@@ -97,8 +110,8 @@ public class Term<Public> extends JFrame {
         viewPanel2.setPreferredSize(new Dimension(400, 350));
         // viewPanel2.setBorder(BorderFactory.createTitledBorder("面板1.2"));
         final GridLayout gridLayout = new GridLayout(0, 5);   //row 行 col 列
-        gridLayout.setVgap(20);
-        gridLayout.setHgap(20);
+        gridLayout.setVgap(35);
+        gridLayout.setHgap(15);
         viewPanel2.setLayout(gridLayout);
         Font f = new Font("宋体", Font.BOLD, 13);
         //getContentPane().add(viewPanel2, BorderLayout.CENTER);
@@ -110,6 +123,11 @@ public class Term<Public> extends JFrame {
                 buttons[row][col] = new JButton(names[row][col]);
                 buttons[row][col].addActionListener(new ListenerNumber());
                 buttons[row][col].setFont(f);
+                buttons[row][col].setMargin(new Insets(0,0,0,0));
+                buttons[row][col].setBorder(new RoundBorder());
+                buttons[row][col].setContentAreaFilled(false);
+                buttons[row][col].setFocusPainted(false);
+               // buttons[row][col].setBackground(new Background(new BackgroundFill(Color.GRAY ,new CornerRadii(10),new Insets(3))));
                 viewPanel2.add(buttons[row][col]);
             }
         }
@@ -128,13 +146,21 @@ public class Term<Public> extends JFrame {
 
         left_one.setPreferredSize(new Dimension(380, 65));
         left_one.setEditable(false);
+        left_one.setBorder(BorderFactory.createLineBorder(Color.black));
         secondPanel1.add(left_one);
 
 
         secondPanel2.setPreferredSize(new Dimension(400, 284));
         //  secondPanel2.setBorder(BorderFactory.createTitledBorder("面板2.2"));
 
+        // 设置滚动条
+        // scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+        // scroll.getViewport().add(left_two);
+        left_two.setBorder(BorderFactory.createLineBorder(Color.black));
+
         secondPanel2.add(left_two);
+
+
 
 
         secondPanel3.setPreferredSize(new Dimension(400, 75));
@@ -151,6 +177,10 @@ public class Term<Public> extends JFrame {
             ad_buttons[i] = new JButton(ad[i]);
             ad_buttons[i].addActionListener(new ListenerNumber());
             ad_buttons[i].setPreferredSize(new Dimension(80, 55));
+            ad_buttons[i].setMargin(new Insets(0,0,0,0));
+            ad_buttons[i].setBorder(new RoundBorder());
+            ad_buttons[i].setContentAreaFilled(false);
+            ad_buttons[i].setFocusPainted(false);
             secondPanel3.add(ad_buttons[i]);
         }
 
@@ -166,6 +196,7 @@ public class Term<Public> extends JFrame {
 
 
     }
+
 
     /*
     这个方法返回的是事件源组件的“命令” ， 这个“命令” 实际上就是事件源组件上的“Label（标签）字符串” ，
@@ -400,7 +431,6 @@ public class Term<Public> extends JFrame {
             // 我需要把jTextArea 中的数据，读取到内存中，然后将这里的数据，写入文件里
             try {
                 String area = left_two.getText();
-                String ax = "yangchangsong";
                 // System.out.println(area);
                 File a = new File("D:\\test.txt");
                 if (!a.exists()) {
@@ -408,9 +438,10 @@ public class Term<Public> extends JFrame {
                 }
                 FileWriter fileWriter = new FileWriter(a.getName(), true);
                 fileWriter.write(area);
-                fileWriter.write(ax);
+
                 fileWriter.close();
-                System.out.println("finish");
+                //System.out.println("finish");
+                left_two.append("finish");
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -419,10 +450,31 @@ public class Term<Public> extends JFrame {
 
         // 查看
         public void ab_show() {
-            JFileChooser fc = new JFileChooser("D:\\");
-            int val = fc.showOpenDialog(null);
-            if(val == fc.APPROVE_OPTION){
+            fd.setVisible(true);
+            String fileName = fd.getDirectory() + fd.getFile();
+            // 找到后把的东西显示在文本框里面
 
+            try {
+                FileInputStream src = new FileInputStream(fileName);
+                byte[] fn = new byte[0];
+                try {
+                    fn = new byte[src.available()];
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    src.read(fn);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                left_two.setText(new String(fn));
+                try {
+                    src.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
             }
 
 

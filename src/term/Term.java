@@ -17,7 +17,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.Objects;
-
+import term.DoRun.*;
 
 public class Term<Public> extends JFrame {
     //若想要实现添加到同一JFrame中且不覆盖，不可直接添加，需要先将要添加的JPanel添加到一个JPanel中，再将该JPanel添加到JFrame中
@@ -25,11 +25,24 @@ public class Term<Public> extends JFrame {
 
     public static void main(String[] args) {
 
-
+        JFrame frame = new JFrame("开屏广告");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.add(new DoRun());
+        frame.setSize(500,500);
+        //frame.setVisible(true);
 
         Term t = new Term();
-        t.setVisible(true);
+
         t.setSize(890, 524);
+        int a = 0;
+        while(a<5000){
+            frame.setVisible(true);
+            t.setVisible(false);
+            a++;
+        }
+        t.setVisible(true);
+        frame.setVisible(false);
+        // 我要要写一个当动画做完之后，然后在显示我的计算器，这样一个流程
     }
 
     final JFrame jf = new JFrame();
@@ -116,7 +129,7 @@ public class Term<Public> extends JFrame {
         Font f = new Font("宋体", Font.BOLD, 13);
         //getContentPane().add(viewPanel2, BorderLayout.CENTER);
         String[][] names = {{"1", "2", "3", "/", "C"}, {"4", "5", "6", "*", "退格"},
-                {"7", "8", "9", "-", "1/x"}, {"0", "+/-", ".", "+", "="}};
+                {"7", "8", "9", "-", "sqrt"}, {"0", "+/-", ".", "+", "="}};
 
         for (int row = 0; row < 4; row++) {
             for (int col = 0; col < 5; col++) {
@@ -198,6 +211,7 @@ public class Term<Public> extends JFrame {
     }
 
 
+
     /*
     这个方法返回的是事件源组件的“命令” ， 这个“命令” 实际上就是事件源组件上的“Label（标签）字符串” ，
 
@@ -239,7 +253,7 @@ public class Term<Public> extends JFrame {
                     break;
                 }
                 case "+/-":
-                case "1/x": {
+                case "sqrt": {
                     change(buttonName);
                     break;
                 }
@@ -407,13 +421,13 @@ public class Term<Public> extends JFrame {
             } else {
                 if (!operatorPressed) {
                     int a = Integer.parseInt(one.getText());
-                    double b = 1.0 / a;
+                    double b = Math.sqrt(a);
                     // 控制小数点位数
                     DecimalFormat df = new DecimalFormat("0.0");
                     one.setText(String.valueOf(df.format(b)));
                 } else {
                     int a = Integer.parseInt(three.getText());
-                    double b = 1.0 / a;
+                    double b = Math.sqrt(a);
                     DecimalFormat df = new DecimalFormat("0.0");
                     three.setText(String.valueOf(df.format(b)));
                 }

@@ -12,7 +12,7 @@ class FrameDemo extends JFrame implements ActionListener {
     public FrameDemo() {
         jb = new JButton("   <<静夜思>>   ");
         jb.addActionListener(this);
-
+        System.out.print("杨昌松帅");
         JPanel jp = new JPanel();
         jp.add(jb);
 
